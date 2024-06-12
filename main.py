@@ -84,3 +84,4 @@ if data.data is not None:
 else:
     print("Errore nel caricamento dei dati.")
 
+pass

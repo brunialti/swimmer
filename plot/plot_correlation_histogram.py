@@ -24,5 +24,4 @@ def plot_correlation_histogram(correlation_matrix, threshold=0.5, title='Pearson
     plt.title(title)
     plt.legend(title='Legend')
     plt.draw()
-    plt.pause(0.1)
     save_figure_to_file(inspect.currentframe().f_code.co_name)

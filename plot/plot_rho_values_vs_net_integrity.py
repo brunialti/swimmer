@@ -19,5 +19,5 @@ def plot_rho_values_vs_net_integrity(t_eq100, t_lt100, rho_values, lcc_sizes, su
     fig.tight_layout()
     fig.legend(loc='lower left', bbox_to_anchor=(0.1,0.2))
     plt.draw()
-    plt.pause(0.01)
+    #plt.pause(0.01)
     save_figure_to_file(inspect.currentframe().f_code.co_name)

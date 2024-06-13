@@ -37,5 +37,5 @@ def plot_iqr_histogram(data: Data, threshold):
     plt.ylabel('Frequency')
     plt.title(data.name)
     plt.draw()
-    plt.pause(0.01)
+    #plt.pause(0.01)
     save_figure_to_file(inspect.currentframe().f_code.co_name)

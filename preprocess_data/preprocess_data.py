@@ -16,7 +16,7 @@ def preprocess_data(data, observed_data, control_data, threshold_perc_zeros=75,t
     #p_values = []
     perc_zeros = []
 
-    for i in tqdm(range(data.data.shape[0]), desc="filter_data, processing rows"):
+    for i in tqdm(range(data.data.shape[0]), desc="filter_data, processing rows",position=0,leave=False):
         # Estrai la riga i-esima, sostituisci NaN con 0
         obs_values = observed_data_log2.iloc[i].fillna(0).values
         ctrl_values = control_data_log2.iloc[i].fillna(0).values

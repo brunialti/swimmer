@@ -86,11 +86,11 @@ class Data:
         except Exception as e:
             pass
 
-        raise ValueError("The file does not contain only numeric data or is in an unrecognized format")
+        raise ValueError(f"{bcolors.FAIL}{inspect.currentframe().f_code.co_name}]{bcolors.ENDC}The file does not contain only numeric data or is in an unrecognized format")
 
     def restore_headers_and_indexes(self):
         if self.data is None or self.data_type != 'matrix':
-            raise ValueError("Data is not loaded or is not a matrix")
+            raise ValueError(f"{bcolors.FAIL}{inspect.currentframe().f_code.co_name}]{bcolors.ENDC}: data is not loaded or is not a matrix")
 
         # Ripristina gli header delle colonne
         if 'cols' in self.indexes:
@@ -161,13 +161,13 @@ class Data:
     def extract(self, name='', row_indices=None, col_indices=None, mode='label'):
 
         if row_indices is None and col_indices is None:
-            raise ValueError("Extract: At least one of row_indices or col_indices must be provided, none detected")
+            raise ValueError(f"{bcolors.FAIL}{inspect.currentframe().f_code.co_name}]{bcolors.ENDC}: extract: At least one of row_indices or col_indices must be provided, none detected")
 
         if self.data_type == 'list':
-            raise ValueError("Extract: Clipping is not supported for list data type")
+            raise ValueError(f"{bcolors.FAIL}{inspect.currentframe().f_code.co_name}]{bcolors.ENDC} extract: Clipping is not supported for list data type")
 
         if mode not in ['label', 'index']:
-            raise ValueError("Mode must be either 'label' or 'index'")
+            raise ValueError(f"{bcolors.FAIL}{inspect.currentframe().f_code.co_name}]{bcolors.ENDC}: mode must be either 'label' or 'index'")
 
         exdata = Data(name)
         valid_row_indices=[]
@@ -207,16 +207,16 @@ class Data:
     def clip_delete(self, row_indices=None, col_indices=None, mode='label'):
 
         if row_indices is None and col_indices is None:
-            raise ValueError("Clip: At least one of row_indices or col_indices must be provided, none detected")
+            raise ValueError(f"{bcolors.FAIL}{inspect.currentframe().f_code.co_name}]{bcolors.ENDC}: at least one of row_indices or col_indices must be provided, none detected")
 
         if self.data is None:
-            raise ValueError("Clip: Data is not loaded")
+            raise ValueError(f"{bcolors.FAIL}{inspect.currentframe().f_code.co_name}]{bcolors.ENDC}: data is not loaded")
 
         if self.data_type == 'list':
-            raise ValueError("Clip: Clipping is not supported for list data type")
+            raise ValueError(f"{bcolors.FAIL}{inspect.currentframe().f_code.co_name}]{bcolors.ENDC}: clipping is not supported for list data type")
 
         if mode not in ['label', 'index']:
-            raise ValueError("Mode must be either 'label' or 'index'")
+            raise ValueError(f"{bcolors.FAIL}{inspect.currentframe().f_code.co_name}]{bcolors.ENDC}: motode must be either 'label' or 'index'")
 
         if row_indices is not None:
             print(f"[{bcolors.OKGREEN}{inspect.currentframe().f_code.co_name}{bcolors.ENDC}]: drop {len(row_indices)} of {self.data.shape[0]} rows")

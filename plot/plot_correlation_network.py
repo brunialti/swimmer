@@ -32,6 +32,6 @@ def plot_correlation_network(correlation_df: DataFrame, rho_threshold):
     #nx.draw_networkx_labels(G, pos, font_size=6, font_color='black')
     plt.title(f'Network with Correlation Threshold {rho_threshold}')
     plt.draw()
-    plt.pause(0.01)
+    #plt.pause(0.01)
     save_figure_to_file(inspect.currentframe().f_code.co_name)
 

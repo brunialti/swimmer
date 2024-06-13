@@ -9,7 +9,7 @@ def compute_rho_values_vs_net_integrity(correlation_matrix, min_threshold=0.1, m
 
     t_eq100 = 0
     t_lt100 = 0
-    for rho in tqdm(rho_values, desc="compute_rho_values_vs_net_integrity, processing rho"):
+    for rho in tqdm(rho_values, desc="compute_rho_values_vs_net_integrity, processing rho",position=0,leave=False):
         adj_matrix = np.where(np.abs(correlation_matrix) >= rho, 1, 0)
         G = nx.from_numpy_array(adj_matrix)
         largest_cc = max(nx.connected_components(G), key=len)

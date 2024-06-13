@@ -11,3 +11,4 @@ def save_figure_to_file(function_name):
     file_path = os.path.join(figures_dir, f"{function_name}.png")
     plt.savefig(file_path)
     print(f"[{bcolors.OKGREEN}{function_name}{bcolors.ENDC}]: graph saved as {file_path}")
+    plt.pause(0.2)

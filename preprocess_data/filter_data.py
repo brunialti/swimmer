@@ -1,4 +1,4 @@
-from imports import pd,np, ttest_ind, multipletests, tqdm
+from imports import pd,np, ttest_ind, multipletests, tqdm, sys
 
 def filter_data(data, observed_data, control_data, threshold_fc=3.4, threshold_pval_adj=0.05):
     # Calcola i log2 dei dati, aggiungendo 1 per evitare log(0)
@@ -8,7 +8,7 @@ def filter_data(data, observed_data, control_data, threshold_fc=3.4, threshold_p
     # Liste per memorizzare i valori calcolati
     p_values = []
 
-    for i in tqdm(range(data.data.shape[0]), desc="filter_data, processing rows"):
+    for i in tqdm(range(data.data.shape[0]), desc="filter_data, processing rows",position=0,leave=False):
         # Estrai la riga i-esima, sostituisci NaN con 0
         obs_values = observed_data_log2.iloc[i].fillna(0).values
         ctrl_values = control_data_log2.iloc[i].fillna(0).values

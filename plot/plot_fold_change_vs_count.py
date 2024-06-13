@@ -37,5 +37,5 @@ def plot_fold_change_vs_count(data: DataFrame,log2_fold_change, threshold):
     # Salva la figura in un file
     save_figure_to_file(inspect.currentframe().f_code.co_name)
     plt.draw()
-    plt.pause(0.01)
+    #plt.pause(0.01)
     save_figure_to_file(inspect.currentframe().f_code.co_name)

@@ -41,5 +41,5 @@ def plot_iqr_vs_perc_non_zero(data: Data, threshold_prc_iqr, threshold_perc_zero
     by_label = dict(zip(labels, handles))
     plt.legend(by_label.values(), by_label.keys(), title='Legend')
     plt.draw()
-    plt.pause(0.01)
+    #plt.pause(0.01)
     save_figure_to_file(inspect.currentframe().f_code.co_name)

@@ -34,30 +34,27 @@ data.load_numeric_dataframe("RNA", rna_matrix_path)
 d1.load_numeric_dataframe("RNA_NORMAL_LIST", rna_normal_list)
 d2.load_numeric_dataframe("RNA_TUMOR_LIST", rna_tumor_list)
 
-# Clipping e preprocessamento
-data.clip_extract(col_indices=d1.data + d2.data)
-control=data.extract(name='CONTROL',col_indices=d1.data,mode='label')
-observed=data.extract(name='OBSERVED',col_indices=d2.data,mode='label')
-
 # Verifica che i dati siano caricati correttamente8
 
 if data.data is not None:
 
     # Data preprocessing
     print('Data processing...')
-    data.iqr, data.percZeros, data.drops, = preprocess_data(data,observed,control,
-                                            threshold_fc=input_parameter["threshold_fc"],
-                                            threshold_pval_adj=input_parameter["threshold_pval_adj"])
+    preprocess_data(data)
     plot_iqr_histogram(data, input_parameter["threshold_prc_iqr"])
     plot_iqr_vs_perc_non_zero(data, input_parameter["threshold_prc_iqr"], input_parameter["threshold_perc_zeros"])
     data.clip_delete(row_indices = data.drops, mode='index')
+    print(data.data.shape,len(data.indexes['rows']),len(data.indexes['cols']))
+    control = data.extract(name='CONTROL', col_indices=d1.data, mode='label')
+    observed = data.extract(name='OBSERVED', col_indices=d2.data, mode='label')
+    data.clip_extract(col_indices=d1.data + d2.data)
+    print(data.data.shape,len(data.indexes['rows']),len(data.indexes['cols']))
+    preprocess_data(observed)
+    preprocess_data(control)
 
     # Filtraggio dei dati
-    control = data.extract("CONTROL", col_indices=d1.data, mode='label')
-    observed = data.extract("CASE", col_indices=d2.data, mode='label')
-
     print('Data filtering...')
-    data.log2_fold_change, data.p_values, data.pval_adj, data.drops = filter_data(data,observed,control,
+    data.log2_fold_change, data.p_values, data.pval_adj, data.drops = filter_data(observed,control,
                                             threshold_fc=input_parameter["threshold_fc"],
                                             threshold_pval_adj=input_parameter["threshold_pval_adj"])
     plot_fold_change_vs_count(data.data,data.log2_fold_change,input_parameter["threshold_fc"])
@@ -83,5 +80,3 @@ if data.data is not None:
 
 else:
     print("Errore nel caricamento dei dati.")
-
-pass

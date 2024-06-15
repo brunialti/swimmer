@@ -4,7 +4,6 @@ from pandas import DataFrame
 
 def plot_fold_change_vs_count(data: DataFrame,log2_fold_change, threshold):
 
-    # print('plot_fold_change_vs_count',data.data.shape, len(data.log2_fold_change), len(data.indedata.s['cols']), len(data.indexes['rows']))
     # Controlla se data è un DataFrame
     if not isinstance(data, DataFrame):
         raise ValueError("data should be a DataFrame")
@@ -37,5 +36,3 @@ def plot_fold_change_vs_count(data: DataFrame,log2_fold_change, threshold):
     # Salva la figura in un file
     save_figure_to_file(inspect.currentframe().f_code.co_name)
     plt.draw()
-    #plt.pause(0.01)
-    save_figure_to_file(inspect.currentframe().f_code.co_name)

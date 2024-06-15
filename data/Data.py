@@ -15,6 +15,7 @@ class Data:
         self.iqr = None
         self.percZeros = None
 
+
     def load_numeric_dataframe(self, name, file_path, separator='\t'):
 
         """Carica un DataFrame Pandas da un file CSV e verifica se contiene solo dati numerici o una lista di stringhe.
@@ -88,6 +89,7 @@ class Data:
 
         raise ValueError(f"{bcolors.FAIL}{inspect.currentframe().f_code.co_name}]{bcolors.ENDC}The file does not contain only numeric data or is in an unrecognized format")
 
+
     def restore_headers_and_indexes(self):
         if self.data is None or self.data_type != 'matrix':
             raise ValueError(f"{bcolors.FAIL}{inspect.currentframe().f_code.co_name}]{bcolors.ENDC}: data is not loaded or is not a matrix")
@@ -100,6 +102,7 @@ class Data:
         if 'rows' in self.indexes:
             self.data.index = self.indexes['rows']
         #print(f"{{bcolors.OKGREEN}.WARNING}inspect.currentframe().f_code.co_name}]: headers and indexes restored for '{self.name}'")
+
 
     def save(self, name=''):
         if self.data is None:
@@ -125,6 +128,7 @@ class Data:
 
         print(f"[{bcolors.OKGREEN}{inspect.currentframe().f_code.co_name}]{bcolors.ENDC}: data saved to {save_path}")
 
+
     def clip_extract(self, row_indices=None, col_indices=None, mode='label'):
         if row_indices is None and col_indices is None:
             raise ValueError("Clip: At least one of row_indices or col_indices must be provided, none detected")
@@ -139,6 +143,7 @@ class Data:
         original_cols = self.indexes['cols']
 
         if row_indices is not None:
+            print(f"[{bcolors.OKGREEN}{inspect.currentframe().f_code.co_name}{bcolors.ENDC}]: extracting {len(row_indices)} of {self.data.shape[0]} cols")
             if mode == 'label':
                 valid_row_indices = [original_rows.index(idx) for idx in row_indices if idx in original_rows]
                 self.indexes['rows'] = [idx for idx in row_indices if idx in original_rows]
@@ -148,6 +153,7 @@ class Data:
             self.data = self.data.iloc[valid_row_indices, :]
 
         if col_indices is not None:
+            print(f"[{bcolors.OKGREEN}{inspect.currentframe().f_code.co_name}{bcolors.ENDC}]: extracting {len(col_indices)} of {self.data.shape[1]} cols")
             if mode == 'label':
                 valid_col_indices = [original_cols.index(idx) for idx in col_indices if idx in original_cols]
                 self.indexes['cols'] = [idx for idx in col_indices if idx in original_cols]
@@ -156,7 +162,8 @@ class Data:
                 self.indexes['cols'] = [original_cols[i] for i in valid_col_indices]
             self.data = self.data.iloc[:, valid_col_indices]
 
-        print(f"[{bcolors.OKGREEN}{inspect.currentframe().f_code.co_name}]{bcolors.ENDC}: Clipped data, new shape: {self.data.shape}")
+        print(f"[{bcolors.OKGREEN}{inspect.currentframe().f_code.co_name}]{bcolors.ENDC}: clipped [{self.name}] data, new shape: {self.data.shape}")
+
 
     def extract(self, name='', row_indices=None, col_indices=None, mode='label'):
 
@@ -170,30 +177,36 @@ class Data:
             raise ValueError(f"{bcolors.FAIL}{inspect.currentframe().f_code.co_name}]{bcolors.ENDC}: mode must be either 'label' or 'index'")
 
         exdata = Data(name)
-        valid_row_indices=[]
-        valid_col_indices=[]
+        exdata.data_type = self.data_type
+
         original_rows = self.indexes['rows']
         original_cols = self.indexes['cols']
 
         if row_indices is not None:
+            print(f"[{bcolors.OKGREEN}{inspect.currentframe().f_code.co_name}{bcolors.ENDC}]: extracting {len(row_indices_indices)} of {self.data.shape[0]} cols")
             if mode == 'label':
                 valid_row_indices = [original_rows.index(idx) for idx in row_indices if idx in original_rows]
                 exdata.indexes['rows'] = [idx for idx in row_indices if idx in original_rows]
+                exdata.indexes['cols'] = original_cols
             else:
                 valid_row_indices = row_indices
                 exdata.indexes['rows'] = [original_rows[i] for i in valid_row_indices]
+                exdata.indexes['cols'] = original_cols
             if valid_row_indices:
                 exdata.data = self.data.iloc[valid_row_indices, :]
             else:
                 exdata.data = pd.DataFrame()
 
         if col_indices is not None:
+            print(f"[{bcolors.OKGREEN}{inspect.currentframe().f_code.co_name}{bcolors.ENDC}]: extracting {len(col_indices)} of {self.data.shape[1]} cols")
             if mode == 'label':
                 valid_col_indices = [original_cols.index(idx) for idx in col_indices if idx in original_cols]
                 exdata.indexes['cols'] = [idx for idx in col_indices if idx in original_cols]
+                exdata.indexes['rows'] = original_rows
             else:
                 valid_col_indices = col_indices
                 exdata.indexes['cols'] = [original_cols[i] for i in valid_col_indices]
+                exdata.indexes['rows'] = original_rows
             if valid_col_indices:
                 exdata.data = self.data.iloc[:, valid_col_indices]
             else:
@@ -202,6 +215,7 @@ class Data:
         if exdata.data.empty:
             print(f"[{bcolors.OKGREEN}{inspect.currentframe().f_code.co_name}{bcolors.ENDC}]: extracted data {name}, but the result is empty.")
 
+        print(f"[{bcolors.OKGREEN}{inspect.currentframe().f_code.co_name}{bcolors.ENDC}]: extracted [{name}] data, shape: {exdata.data.shape}")
         return exdata
 
     def clip_delete(self, row_indices=None, col_indices=None, mode='label'):
@@ -219,10 +233,10 @@ class Data:
             raise ValueError(f"{bcolors.FAIL}{inspect.currentframe().f_code.co_name}]{bcolors.ENDC}: motode must be either 'label' or 'index'")
 
         if row_indices is not None:
-            print(f"[{bcolors.OKGREEN}{inspect.currentframe().f_code.co_name}{bcolors.ENDC}]: drop {len(row_indices)} of {self.data.shape[0]} rows")
+            print(f"[{bcolors.OKGREEN}{inspect.currentframe().f_code.co_name}{bcolors.ENDC}]: dropping {len(row_indices)} of {self.data.shape[0]} rows")
             original_rows = self.indexes['rows']
             if mode == 'label':
-                drop_row_indices = [idx for idx in row_indices if idx in original_rows]
+                #drop_row_indices = [idx for idx in row_indices if idx in original_rows]
                 self.indexes['rows'] = [idx for idx in original_rows if idx not in row_indices]
             else:
                 drop_row_indices = row_indices
@@ -230,15 +244,15 @@ class Data:
             self.data = self.data.drop(index=self.data.index[row_indices])
 
         if col_indices is not None:
-            print(f"[{bcolors.OKGREEN}{inspect.currentframe().f_code.co_name}[{bcolors.ENDC}]: drop {len(col_indices)} of {self.data.shape[1]} cols")
+            print(f"[{bcolors.OKGREEN}{inspect.currentframe().f_code.co_name}[{bcolors.ENDC}]: dropping {len(col_indices)} of {self.data.shape[1]} cols")
             original_cols = self.indexes['cols']
             if mode == 'label':
-                drop_col_indices = [idx for idx in col_indices if idx in original_cols]
+                #drop_col_indices = [idx for idx in col_indices if idx in original_cols]
                 self.indexes['cols'] = [idx for idx in original_cols if idx not in col_indices]
             else:
                 drop_col_indices = col_indices
                 self.indexes['cols'] = [original_cols[i] for i in range(len(original_cols)) if i not in drop_col_indices]
             self.data = self.data.drop(columns=self.data.index[row_indices])
 
-        print(f"[{bcolors.OKGREEN}{inspect.currentframe().f_code.co_name}{bcolors.ENDC}]: Clipped data, new shape: {self.data.shape}")
+        print(f"[{bcolors.OKGREEN}{inspect.currentframe().f_code.co_name}{bcolors.ENDC}]: Clipped [{self.name}] data, new shape: {self.data.shape}")
         self.drops=[]

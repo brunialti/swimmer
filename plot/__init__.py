@@ -7,6 +7,7 @@ from plot.plot_correlation_histogram import plot_correlation_histogram
 from plot.plot_rho_values_vs_net_integrity import plot_rho_values_vs_net_integrity
 from plot.plot_correlation_network import plot_correlation_network
 from plot.save_figure_to_file import save_figure_to_file
+from plot.get_scree_plot import get_scree_plot
 
 __all__ = ['plot_fold_change_vs_count',
            'plot_iqr_histogram',
@@ -15,4 +16,5 @@ __all__ = ['plot_fold_change_vs_count',
            'plot_correlation_matrix',
            'plot_correlation_histogram',
            'plot_rho_values_vs_net_integrity',
-           'plot_correlation_network','save_figure_to_file']
+           'plot_correlation_network','save_figure_to_file',
+           'get_scree_plot']

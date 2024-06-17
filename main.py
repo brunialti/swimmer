@@ -44,11 +44,11 @@ if data.data is not None:
     plot_iqr_histogram(data, input_parameter["threshold_prc_iqr"])
     plot_iqr_vs_perc_non_zero(data, input_parameter["threshold_prc_iqr"], input_parameter["threshold_perc_zeros"])
     data.clip_delete(row_indices = data.drops, mode='index')
-    print(data.data.shape,len(data.indexes['rows']),len(data.indexes['cols']))
+
     control = data.extract(name='CONTROL', col_indices=d1.data, mode='label')
     observed = data.extract(name='OBSERVED', col_indices=d2.data, mode='label')
     data.clip_extract(col_indices=d1.data + d2.data)
-    print(data.data.shape,len(data.indexes['rows']),len(data.indexes['cols']))
+
     preprocess_data(observed)
     preprocess_data(control)
 
@@ -63,20 +63,23 @@ if data.data is not None:
     data.save(name='FILTERED')
 
     # Create netwwork
-    print('Create and plot correlation matrix...')
+    print('Create correlation matrix...')
     correlation_matrix = compute_correlation(data.data, method=input_parameter['type_correlation'])
     plot_correlation_histogram(correlation_matrix, input_parameter['threshold_prc_corr'])
 
-    print('Plot rho values vs net integrity %...')
+    print('Plot rho values vs net integrity %...',flush=True)
     t_eq100,t_lt100,rho_values,lcc_sizes,subnet_counts=compute_rho_values_vs_net_integrity(correlation_matrix, min_threshold=input_parameter['min_rho'], max_threshold=input_parameter['max_rho'], step=input_parameter['step_rho'])
     plot_rho_values_vs_net_integrity(t_eq100,t_lt100,rho_values,lcc_sizes,subnet_counts,step=input_parameter['step_rho'])
 
-    print('Plot correlation matrix and network...')
+    #print('Plot correlation matrix and network...')
     #plot_correlation_matrix(correlation_matrix)
     #plot_correlation_network(correlation_matrix,t_eq100)
 
-    print('Computing network degrees...')
-    network_degrees = compute_network_integrity(correlation_matrix)
+    #print('Computing network degrees...')
+    #network_degrees = compute_network_integrity(correlation_matrix)
+
+    get_scree_plot(data.data,7,300,10)
+    print('end')
 
 else:
     print("Errore nel caricamento dei dati.")

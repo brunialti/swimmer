@@ -7,5 +7,4 @@ def plot_correlation_matrix(correlation_matrix, title='Correlation Matrix'):
     sns.heatmap(correlation_matrix, annot=False, cmap='coolwarm', cbar=True)
     plt.title(title)
     plt.draw()
-    #plt.pause(0.01)
     save_figure_to_file(inspect.currentframe().f_code.co_name)

@@ -78,7 +78,7 @@ if data.data is not None:
     #print('Computing network degrees...')
     #network_degrees = compute_network_integrity(correlation_matrix)
 
-    plot_scree(data.data,7,300,10)
+    plot_scree(correlation_matrix,t_eq100,7,300,10)
     print('end')
 
 else:
